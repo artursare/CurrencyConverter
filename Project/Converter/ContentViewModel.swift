@@ -13,7 +13,7 @@ final class ContentViewModel: ObservableObject {
     @Published var labelText = ""
     var buttonText = "Get me the 🆔"
     
-    private let api = SampleAPI()
+    private let api = RatesAPI()
 
     private var bag = Set<AnyCancellable>()
     
@@ -21,8 +21,8 @@ final class ContentViewModel: ObservableObject {
         labelText = "ID-zzz-xxx"
     }
     
-    func sendPhoto() {
-        api.validate(data: Data())
+    func getRates() {
+        api.getRates()
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
@@ -30,8 +30,8 @@ final class ContentViewModel: ObservableObject {
                 case .failure(let error):
                     print(error)
                 }
-            }) { document in
-                print(document)
+            }) { base in
+                print(base.rates)
             }.store(in: &bag)
     }
 }
