@@ -13,10 +13,10 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            Text(vm.labelText)
+            Text(vm.balancesTitle)
                 .padding()
             
-            Button(vm.buttonText, action: vm.getId)
+            Button(vm.buttonTitle, action: vm.convert)
                 .frame(height: 44)
         }
     }
@@ -24,6 +24,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(vm: ContentViewModel())
+        ContentView(vm: ContentViewModel(user: User()))
     }
 }

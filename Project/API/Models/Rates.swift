@@ -21,15 +21,9 @@ import Networking
  }
  */
 
-enum Currency: String, Codable {
-    case JPY
-    case USD
-    case GBP
-}
-
 struct BaseRate: Codable, NetworkingJSONDecodable {
     
-    let rates: [Currency]
+    let rates: [String: Decimal]
     let base: String
     let date: String
 }

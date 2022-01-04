@@ -7,20 +7,44 @@
 
 import UIKit
 import Combine
+import Foundation
 
 final class ContentViewModel: ObservableObject {
 
-    @Published var labelText = ""
-    var buttonText = "Get me the 🆔"
+    let title = "Currency Converter"
+    let balancesTitle = "My Balances"
+    let exchangeTitle = "Currency Exchange"
+    let sellTitle = "Sell"
+    let receiveTitle = "Receive"
+    let buttonTitle = "Submit"
+    
+    @Published var isLoading  = true
+    
+    let user: User
+    let wallet: User.Wallet
     
     private let api = RatesAPI()
-
     private var bag = Set<AnyCancellable>()
     
-    func getId() {
-        labelText = "ID-zzz-xxx"
+    init(user: User) {
+        self.user = user
+        self.wallet = User.Wallet(current: user.balance)
+        
+        getRates()
     }
     
+    //MARK: VM actions
+    func convert() {
+        
+
+        
+    }
+    
+    
+    //MARK: Internal
+    
+    
+    //private ?
     func getRates() {
         api.getRates()
             .sink(receiveCompletion: { completion in
@@ -30,8 +54,10 @@ final class ContentViewModel: ObservableObject {
                 case .failure(let error):
                     print(error)
                 }
-            }) { base in
+            }) { [weak self] base in
                 print(base.rates)
+                self?.isLoading = false
+                
             }.store(in: &bag)
     }
 }
