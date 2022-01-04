@@ -15,6 +15,7 @@ struct RatesAPI: NetworkingService {
 
     let network: NetworkingClient = {
         var client = NetworkingClient(baseURL: "http://api.exchangeratesapi.io/v1")
+        client.timeout = 15
         return client
     }()
 

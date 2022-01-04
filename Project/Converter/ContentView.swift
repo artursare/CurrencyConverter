@@ -16,8 +16,16 @@ struct ContentView: View {
             Text(vm.balancesTitle)
                 .padding()
             
+            List(vm.userBalances, id: \.self) { string in
+                Text(string)
+            }.padding()
+            
+            Text(vm.exchangeTitle)
+                .padding()
+            
             Button(vm.buttonTitle, action: vm.convert)
                 .frame(height: 44)
+                .disabled(vm.isLoading)
         }
     }
 }
