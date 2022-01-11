@@ -8,7 +8,6 @@
 import Foundation
 import Networking
 
-
 /*
  {
    "rates": {
@@ -21,9 +20,12 @@ import Networking
  }
  */
 
-struct BaseRate: Codable, NetworkingJSONDecodable {
-    
+struct BaseRate: Decodable, NetworkingJSONDecodable {
     let rates: [String: Decimal]
     let base: String
     let date: String
+    
+    var allCurrencies: [String] {
+        Array(rates.keys)
+    }
 }

@@ -13,10 +13,10 @@ final class ContentViewModel: ObservableObject {
     
     @Published var isLoading = true
     @Published var userBalances: [String] = []
-    @Published var alertText: (String, String, String)? = nil
+    @Published var pickerData: [String] = []
     
+    @Published var chosenAmount: Decimal = 0.0
     //TODO: Wire from UI poicker
-    @Published var chosenAmount: Decimal = 10.0
     @Published var pickedCurrencyFrom: String = "EUR"
     @Published var pickedCurrencyTo: String = "USD"
 
@@ -48,13 +48,14 @@ final class ContentViewModel: ObservableObject {
     private func getRates() {
         api.getRates()
             .sink(receiveCompletion: { _ in }) { [weak self] base in
-                self?.finishedLoading(rates: base.rates)
+                self?.finishedLoading(rate: base)
             }.store(in: &bag)
     }
     
-    private func finishedLoading(rates: [String : Decimal]) {
+    private func finishedLoading(rate: BaseRate) {
         isLoading = false
-        converter.rates = rates
-        print(rates)
+        pickerData = rate.allCurrencies
+        converter.rates = rate.rates
+        print(rate)
     }
 }
